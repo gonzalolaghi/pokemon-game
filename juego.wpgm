@@ -1,0 +1,301 @@
+import wollok.game.*
+import pokemon.*
+
+const pikachu = new Pokemon(
+    nombre = "Pikachu",
+    vida = 100,
+    vidaMaxima = 100,
+    ataque = 25,
+    defensa = 10,
+    tipo = "Eléctrico",
+    imagen = "pikachu.png",
+    position = game.at(2, 11)
+)
+
+const charmander = new Pokemon(
+    nombre = "Charmander",
+    vida = 120,
+    vidaMaxima = 120,
+    ataque = 30,
+    defensa = 15,
+    tipo = "Fuego",
+    imagen = "charmander.png",
+    position = game.at(8, 11)
+)
+
+const squirtle = new Pokemon(
+    nombre = "Squirtle",
+    vida = 110,
+    vidaMaxima = 110,
+    ataque = 20,
+    defensa = 20,
+    tipo = "Agua",
+    imagen = "squirtle.png",
+    position = game.at(14, 11)
+)
+
+const bulbasaur = new Pokemon(
+    nombre = "Bulbasaur",
+    vida = 115,
+    vidaMaxima = 115,
+    ataque = 22,
+    defensa = 18,
+    tipo = "Planta",
+    imagen = "bulbasaur.png",
+    position = game.at(20, 11)
+)
+
+
+// CONTROLADOR DEL JUEGO
+object juego {
+    const pokemones = [pikachu, charmander, squirtle, bulbasaur]
+    var property indiceSeleccionado = 0
+    var property pokemonElegido = null
+    var property enPantallaSeleccion = true
+
+    method pokemonActual() = pokemones.get(indiceSeleccionado)
+
+    method moverIzquierda() {
+        if (indiceSeleccionado > 0) {
+            indiceSeleccionado -= 1
+            selector.actualizarPosicion()
+        }
+    }
+
+    method moverDerecha() {
+        if (indiceSeleccionado < pokemones.size() - 1) {
+            indiceSeleccionado += 1
+            selector.actualizarPosicion()
+        }
+    }
+
+    method confirmarSeleccion() {
+        pokemonElegido = self.pokemonActual()
+        game.say(pokemonElegido, "¡" + pokemonElegido.nombre() + ", te elijo a ti!")
+    }
+}
+
+
+// Marco seleccion
+object selector {
+    var property position = game.at(1, 10)
+
+    method actualizarPosicion() {
+        const pokemon = juego.pokemonActual()
+        position = game.at(pokemon.position().x() - 0.5, pokemon.position().y() - 0.5)
+    }
+
+    method image() = "selector.png"
+}
+
+
+// INTERFAZ DE SELECCIÓN
+object tituloLinea1 {
+    method position() = game.at(3, 18)
+    method text() = "═══════════════════════"
+    method textColor() = "FFD700"
+}
+
+object titulo {
+    method position() = game.at(4, 17)
+    method text() = "¡ELIGE TU POKÉMON!"
+    method textColor() = "FFD700"
+}
+
+object tituloLinea2 {
+    method position() = game.at(3, 16)
+    method text() = "═══════════════════════"
+    method textColor() = "FFD700"
+}
+
+object instrucciones {
+    method position() = game.at(4, 1)
+    method text() = "← → elegir | ENTER confirmar"
+    method textColor() = "FFFFFFCC"
+}
+
+// PIKACHU
+object infoPikachu {
+    method position() = game.at(1, 8)
+    method text() = "Pikachu"
+    method textColor() = "FFFF00"
+}
+
+object tipoPikachu {
+    method position() = game.at(0.5, 7)
+    method text() = "Eléctrico"
+    method textColor() = "FFD700"
+}
+
+object statsPikachu {
+    method position() = game.at(1, 6)
+    method text() = "HP: 100"
+    method textColor() = "FF6B6B"
+}
+
+object atkPikachu {
+    method position() = game.at(1, 5)
+    method text() = "ATK: 25"
+    method textColor() = "FFA500"
+}
+
+object defPikachu {
+    method position() = game.at(1, 4)
+    method text() = "DEF: 10"
+    method textColor() = "4169E1"
+}
+
+// CHARMANDER
+object infoCharmander {
+    method position() = game.at(6.5, 8)
+    method text() = "Charmander"
+    method textColor() = "FF6347"
+}
+
+object tipoCharmander {
+    method position() = game.at(7.5, 7)
+    method text() = "Fuego"
+    method textColor() = "FF4500"
+}
+
+object statsCharmander {
+    method position() = game.at(7, 6)
+    method text() = "HP: 120"
+    method textColor() = "FF6B6B"
+}
+
+object atkCharmander {
+    method position() = game.at(7, 5)
+    method text() = "ATK: 30"
+    method textColor() = "FFA500"
+}
+
+object defCharmander {
+    method position() = game.at(7, 4)
+    method text() = "DEF: 15"
+    method textColor() = "4169E1"
+}
+
+// SQUIRTLE
+object infoSquirtle {
+    method position() = game.at(13, 8)
+    method text() = "Squirtle"
+    method textColor() = "00BFFF"
+}
+
+object tipoSquirtle {
+    method position() = game.at(13.5, 7)
+    method text() = "Agua"
+    method textColor() = "4682B4"
+}
+
+object statsSquirtle {
+    method position() = game.at(13, 6)
+    method text() = "HP: 110"
+    method textColor() = "FF6B6B"
+}
+
+object atkSquirtle {
+    method position() = game.at(13, 5)
+    method text() = "ATK: 20"
+    method textColor() = "FFA500"
+}
+
+object defSquirtle {
+    method position() = game.at(13, 4)
+    method text() = "DEF: 20"
+    method textColor() = "4169E1"
+}
+
+// BULBASAUR
+object infoBulbasaur {
+    method position() = game.at(19, 8)
+    method text() = "Bulbasaur"
+    method textColor() = "32CD32"
+}
+
+object tipoBulbasaur {
+    method position() = game.at(19.5, 7)
+    method text() = "Planta"
+    method textColor() = "228B22"
+}
+
+object statsBulbasaur {
+    method position() = game.at(19, 6)
+    method text() = "HP: 115"
+    method textColor() = "FF6B6B"
+}
+
+object atkBulbasaur {
+    method position() = game.at(19, 5)
+    method text() = "ATK: 22"
+    method textColor() = "FFA500"
+}
+
+object defBulbasaur {
+    method position() = game.at(19, 4)
+    method text() = "DEF: 18"
+    method textColor() = "4169E1"
+}
+
+
+// PROGRAMA PRINCIPAL
+program juegoInicio {
+    // Configuración del juego
+    game.title("Gimnasio Pokémon")
+    game.width(28)
+    game.height(20)
+    game.cellSize(64)
+
+    // Agregar Pokémon
+    game.addVisual(pikachu)
+    game.addVisual(charmander)
+    game.addVisual(squirtle)
+    game.addVisual(bulbasaur)
+
+    // Agregar selector
+    game.addVisual(selector)
+    selector.actualizarPosicion()
+
+    // Agregar interfaz
+    game.addVisual(tituloLinea1)
+    game.addVisual(titulo)
+    game.addVisual(tituloLinea2)
+    game.addVisual(instrucciones)
+
+    // Información Pikachu
+    game.addVisual(infoPikachu)
+    game.addVisual(tipoPikachu)
+    game.addVisual(statsPikachu)
+    game.addVisual(atkPikachu)
+    game.addVisual(defPikachu)
+
+    // Información Charmander
+    game.addVisual(infoCharmander)
+    game.addVisual(tipoCharmander)
+    game.addVisual(statsCharmander)
+    game.addVisual(atkCharmander)
+    game.addVisual(defCharmander)
+
+    // Información Squirtle
+    game.addVisual(infoSquirtle)
+    game.addVisual(tipoSquirtle)
+    game.addVisual(statsSquirtle)
+    game.addVisual(atkSquirtle)
+    game.addVisual(defSquirtle)
+
+    // Información Bulbasaur
+    game.addVisual(infoBulbasaur)
+    game.addVisual(tipoBulbasaur)
+    game.addVisual(statsBulbasaur)
+    game.addVisual(atkBulbasaur)
+    game.addVisual(defBulbasaur)
+
+    // CONTROLES - Navegación
+    keyboard.left().onPressDo({ juego.moverIzquierda() })
+    keyboard.right().onPressDo({ juego.moverDerecha() })
+    keyboard.enter().onPressDo({ juego.confirmarSeleccion() })
+
+    // Iniciar el juego
+    game.start()
+}
