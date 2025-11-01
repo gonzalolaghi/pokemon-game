@@ -9,7 +9,7 @@ const pikachu = new Pokemon(
     defensa = 10,
     tipo = "Eléctrico",
     imagen = "pikachu.png",
-    position = game.at(5, 11)
+    position = game.at(-10, -10)
 )
 
 const charmander = new Pokemon(
@@ -20,7 +20,7 @@ const charmander = new Pokemon(
     defensa = 15,
     tipo = "Fuego",
     imagen = "charmander.png",
-    position = game.at(13, 11)
+    position = game.at(-10, -10)
 )
 
 const squirtle = new Pokemon(
@@ -31,7 +31,7 @@ const squirtle = new Pokemon(
     defensa = 20,
     tipo = "Agua",
     imagen = "squirtle.png",
-    position = game.at(21, 11)
+    position = game.at(-10, -10)
 )
 
 const bulbasaur = new Pokemon(
@@ -42,7 +42,7 @@ const bulbasaur = new Pokemon(
     defensa = 18,
     tipo = "Planta",
     imagen = "bulbasaur.png",
-    position = game.at(29, 11)
+    position = game.at(-10, -10)
 )
 
 
@@ -52,6 +52,8 @@ object juego {
     var property indiceSeleccionado = 0
     var property pokemonElegido = null
     var property enPantallaSeleccion = true
+    var property enPantallaInicio = true
+    var property seleccionIniciada = false
 
     method pokemonActual() = pokemones.get(indiceSeleccionado)
 
@@ -71,8 +73,12 @@ object juego {
 
     method confirmarSeleccion() {
         pokemonElegido = self.pokemonActual()
-        game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!")
+        game.schedule(100, { game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!") })
         game.sound("yo_te_elijo.mp3").play()
+        // Remover controles de selección para evitar sonidos repetidos
+        keyboard.left().onPressDo({})
+        keyboard.right().onPressDo({})
+        keyboard.enter().onPressDo({})
     }
 }
 
@@ -131,6 +137,47 @@ object bulbasaurStatsImage {
     method scale() = 0.8
 }
 
+// BOTÓN PLAY
+object playButton {
+    method position() = game.at(15, 6)
+    method image() = "play.png"
+    method scale() = 0.5
+
+    method iniciarSeleccion() {
+        if (not juego.seleccionIniciada()) {
+            game.sound("choose_your_pokemon.mp3").play()
+            juego.seleccionIniciada(true)
+            juego.enPantallaInicio(false)
+            // Posicionar Pokémon
+            pikachu.position(game.at(5, 11))
+            charmander.position(game.at(13, 11))
+            squirtle.position(game.at(21, 11))
+            bulbasaur.position(game.at(29, 11))
+            // Agregar selección
+            game.addVisual(pikachu)
+            game.addVisual(charmander)
+            game.addVisual(squirtle)
+            game.addVisual(bulbasaur)
+            game.addVisual(selector)
+            selector.actualizarPosicion()
+            game.addVisual(tituloImagen)
+            game.addVisual(instrucciones)
+            game.addVisual(pikachuStatsImage)
+            game.addVisual(charmanderStatsImage)
+            game.addVisual(squirtleStatsImage)
+            game.addVisual(bulbasaurStatsImage)
+            // Limpiar controles anteriores
+            keyboard.enter().onPressDo({})
+            // Controles
+            keyboard.left().onPressDo({ juego.moverIzquierda() })
+            keyboard.right().onPressDo({ juego.moverDerecha() })
+            keyboard.enter().onPressDo({ juego.confirmarSeleccion() })
+            // Remover botón
+            game.removeVisual(self)
+        }
+    }
+}
+
 
 // PROGRAMA PRINCIPAL
 program juegoInicio {
@@ -141,38 +188,11 @@ program juegoInicio {
     game.cellSize(64)
     game.boardGround("fondo_pantalla.png")
 
-    // Agregar Pokémon
-    game.addVisual(pikachu)
-    game.addVisual(charmander)
-    game.addVisual(squirtle)
-    game.addVisual(bulbasaur)
+    // Agregar botón play inicialmente
+    game.addVisual(playButton)
 
-    // Agregar selector
-    game.addVisual(selector)
-    selector.actualizarPosicion()
-
-    // Agregar interfaz
-    game.addVisual(tituloImagen)
-    game.addVisual(instrucciones)
-
-    // Información Pikachu
-    game.addVisual(pikachuStatsImage)
-
-    // Información Charmander
-    game.addVisual(charmanderStatsImage)
-
-    // Información Squirtle
-    game.addVisual(squirtleStatsImage)
-
-    // Información Bulbasaur
-    game.addVisual(bulbasaurStatsImage)
-
-    // CONTROLES - Navegación
-    keyboard.left().onPressDo({ juego.moverIzquierda() })
-    keyboard.right().onPressDo({ juego.moverDerecha() })
-    keyboard.enter().onPressDo({ juego.confirmarSeleccion() })
-
-    // Reproducir música de inicio en loop
+    // Control para iniciar selección con ENTER
+    keyboard.enter().onPressDo({ playButton.iniciarSeleccion() })
 
     // Iniciar el juego
     game.start()
