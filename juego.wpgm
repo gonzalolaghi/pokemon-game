@@ -71,7 +71,7 @@ object juego {
 
     method confirmarSeleccion() {
         pokemonElegido = self.pokemonActual()
-        game.say(pokemonElegido, "¡" + pokemonElegido.nombre() + ", te elijo a ti!")
+        game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!")
     }
 }
 
@@ -90,22 +90,10 @@ object selector {
 
 
 // INTERFAZ DE SELECCIÓN
-object tituloLinea1 {
-    method position() = game.at(3, 18)
-    method text() = "═══════════════════════"
-    method textColor() = "FFD700"
-}
-
-object titulo {
-    method position() = game.at(4, 17)
-    method text() = "¡ELIGE TU POKÉMON!"
-    method textColor() = "FFD700"
-}
-
-object tituloLinea2 {
-    method position() = game.at(3, 16)
-    method text() = "═══════════════════════"
-    method textColor() = "FFD700"
+object tituloImagen {
+    method position() = game.at(8, 16)
+    method image() = "titulo.png"
+    method scale() = 0.10
 }
 
 object instrucciones {
@@ -115,127 +103,31 @@ object instrucciones {
 }
 
 // PIKACHU
-object infoPikachu {
-    method position() = game.at(1, 8)
-    method text() = "Pikachu"
-    method textColor() = "FFFF00"
-}
-
-object tipoPikachu {
-    method position() = game.at(0.5, 7)
-    method text() = "Eléctrico"
-    method textColor() = "FFD700"
-}
-
-object statsPikachu {
-    method position() = game.at(1, 6)
-    method text() = "HP: 100"
-    method textColor() = "FF6B6B"
-}
-
-object atkPikachu {
-    method position() = game.at(1, 5)
-    method text() = "ATK: 25"
-    method textColor() = "FFA500"
-}
-
-object defPikachu {
-    method position() = game.at(1, 4)
-    method text() = "DEF: 10"
-    method textColor() = "4169E1"
+object pikachuStatsImage {
+    method position() = game.at(0, 3)
+    method image() = "pikachu_stats.png"
+    method scale() = 0.8
 }
 
 // CHARMANDER
-object infoCharmander {
-    method position() = game.at(6.5, 8)
-    method text() = "Charmander"
-    method textColor() = "FF6347"
-}
-
-object tipoCharmander {
-    method position() = game.at(7.5, 7)
-    method text() = "Fuego"
-    method textColor() = "FF4500"
-}
-
-object statsCharmander {
-    method position() = game.at(7, 6)
-    method text() = "HP: 120"
-    method textColor() = "FF6B6B"
-}
-
-object atkCharmander {
-    method position() = game.at(7, 5)
-    method text() = "ATK: 30"
-    method textColor() = "FFA500"
-}
-
-object defCharmander {
-    method position() = game.at(7, 4)
-    method text() = "DEF: 15"
-    method textColor() = "4169E1"
+object charmanderStatsImage {
+    method position() = game.at(6, 3)
+    method image() = "charmander_stats.png"
+    method scale() = 0.8
 }
 
 // SQUIRTLE
-object infoSquirtle {
-    method position() = game.at(13, 8)
-    method text() = "Squirtle"
-    method textColor() = "00BFFF"
-}
-
-object tipoSquirtle {
-    method position() = game.at(13.5, 7)
-    method text() = "Agua"
-    method textColor() = "4682B4"
-}
-
-object statsSquirtle {
-    method position() = game.at(13, 6)
-    method text() = "HP: 110"
-    method textColor() = "FF6B6B"
-}
-
-object atkSquirtle {
-    method position() = game.at(13, 5)
-    method text() = "ATK: 20"
-    method textColor() = "FFA500"
-}
-
-object defSquirtle {
-    method position() = game.at(13, 4)
-    method text() = "DEF: 20"
-    method textColor() = "4169E1"
+object squirtleStatsImage {
+    method position() = game.at(12, 3)
+    method image() = "squirtle_stats.png"
+    method scale() = 0.8
 }
 
 // BULBASAUR
-object infoBulbasaur {
-    method position() = game.at(19, 8)
-    method text() = "Bulbasaur"
-    method textColor() = "32CD32"
-}
-
-object tipoBulbasaur {
-    method position() = game.at(19.5, 7)
-    method text() = "Planta"
-    method textColor() = "228B22"
-}
-
-object statsBulbasaur {
-    method position() = game.at(19, 6)
-    method text() = "HP: 115"
-    method textColor() = "FF6B6B"
-}
-
-object atkBulbasaur {
-    method position() = game.at(19, 5)
-    method text() = "ATK: 22"
-    method textColor() = "FFA500"
-}
-
-object defBulbasaur {
-    method position() = game.at(19, 4)
-    method text() = "DEF: 18"
-    method textColor() = "4169E1"
+object bulbasaurStatsImage {
+    method position() = game.at(18, 3)
+    method image() = "bulbasaur_stats.png"
+    method scale() = 0.8
 }
 
 
@@ -258,38 +150,20 @@ program juegoInicio {
     selector.actualizarPosicion()
 
     // Agregar interfaz
-    game.addVisual(tituloLinea1)
-    game.addVisual(titulo)
-    game.addVisual(tituloLinea2)
+    game.addVisual(tituloImagen)
     game.addVisual(instrucciones)
 
     // Información Pikachu
-    game.addVisual(infoPikachu)
-    game.addVisual(tipoPikachu)
-    game.addVisual(statsPikachu)
-    game.addVisual(atkPikachu)
-    game.addVisual(defPikachu)
+    game.addVisual(pikachuStatsImage)
 
     // Información Charmander
-    game.addVisual(infoCharmander)
-    game.addVisual(tipoCharmander)
-    game.addVisual(statsCharmander)
-    game.addVisual(atkCharmander)
-    game.addVisual(defCharmander)
+    game.addVisual(charmanderStatsImage)
 
     // Información Squirtle
-    game.addVisual(infoSquirtle)
-    game.addVisual(tipoSquirtle)
-    game.addVisual(statsSquirtle)
-    game.addVisual(atkSquirtle)
-    game.addVisual(defSquirtle)
+    game.addVisual(squirtleStatsImage)
 
     // Información Bulbasaur
-    game.addVisual(infoBulbasaur)
-    game.addVisual(tipoBulbasaur)
-    game.addVisual(statsBulbasaur)
-    game.addVisual(atkBulbasaur)
-    game.addVisual(defBulbasaur)
+    game.addVisual(bulbasaurStatsImage)
 
     // CONTROLES - Navegación
     keyboard.left().onPressDo({ juego.moverIzquierda() })
