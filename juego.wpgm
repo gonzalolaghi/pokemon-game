@@ -173,7 +173,6 @@ program juegoInicio {
     keyboard.enter().onPressDo({ juego.confirmarSeleccion() })
 
     // Reproducir música de inicio en loop
-    game.sound("choose_your_pokemon.mp3").loop(true).play()
 
     // Iniciar el juego
     game.start()
