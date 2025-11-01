@@ -72,6 +72,7 @@ object juego {
     method confirmarSeleccion() {
         pokemonElegido = self.pokemonActual()
         game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!")
+        game.sound("yo_te_elijo.mp3").play()
     }
 }
 
@@ -170,6 +171,9 @@ program juegoInicio {
     keyboard.left().onPressDo({ juego.moverIzquierda() })
     keyboard.right().onPressDo({ juego.moverDerecha() })
     keyboard.enter().onPressDo({ juego.confirmarSeleccion() })
+
+    // Reproducir música de inicio en loop
+    game.sound("choose_your_pokemon.mp3").loop(true).play()
 
     // Iniciar el juego
     game.start()
