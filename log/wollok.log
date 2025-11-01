@@ -1,0 +1,16 @@
+{"level":"info","message":"⌛ Building environment","timeElapsed":112,"timestamp":"2025-11-01T01:41:30.966Z"}
+{"level":"info","message":"⌛ Validating pokemon.wlk","timeElapsed":109,"timestamp":"2025-11-01T01:41:31.825Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/bulbasaur.png","timestamp":"2025-11-01T01:42:17.673Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/charmander.png","timestamp":"2025-11-01T01:42:20.667Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/pikachu.png","timestamp":"2025-11-01T01:42:24.695Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":104,"timestamp":"2025-11-01T01:42:29.043Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/selector.png","timestamp":"2025-11-01T01:42:29.146Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/squirtle.png","timestamp":"2025-11-01T01:42:32.645Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/squirtle copy.png","timestamp":"2025-11-01T01:42:38.996Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/selector copy.png","timestamp":"2025-11-01T01:42:50.344Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/pikachu org.png","timestamp":"2025-11-01T01:43:04.190Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/pikachu.png","timestamp":"2025-11-01T01:43:15.843Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/pikachu copy.png","timestamp":"2025-11-01T01:43:21.701Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/charmander copy.png","timestamp":"2025-11-01T01:43:31.539Z"}
+{"level":"info","message":"Removing diagnostics from /c:/Users/G/pokemon-game/assets/bulbasaur copy.png","timestamp":"2025-11-01T01:43:35.750Z"}
+{"level":"info","message":"🚀 Program executed \u001b[3m\u001b[34mjuego.juegoInicio\u001b[39m\u001b[23m on \u001b[3m\u001b[34mc:\\Users\\G\\pokemon-game\u001b[39m\u001b[23m","ok":true,"timeElapsed":217,"timestamp":"2025-11-01T01:43:54.673Z"}
