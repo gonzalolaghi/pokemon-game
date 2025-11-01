@@ -9,7 +9,7 @@ const pikachu = new Pokemon(
     defensa = 10,
     tipo = "Eléctrico",
     imagen = "pikachu.png",
-    position = game.at(2, 11)
+    position = game.at(5, 11)
 )
 
 const charmander = new Pokemon(
@@ -20,7 +20,7 @@ const charmander = new Pokemon(
     defensa = 15,
     tipo = "Fuego",
     imagen = "charmander.png",
-    position = game.at(8, 11)
+    position = game.at(13, 11)
 )
 
 const squirtle = new Pokemon(
@@ -31,7 +31,7 @@ const squirtle = new Pokemon(
     defensa = 20,
     tipo = "Agua",
     imagen = "squirtle.png",
-    position = game.at(14, 11)
+    position = game.at(21, 11)
 )
 
 const bulbasaur = new Pokemon(
@@ -42,7 +42,7 @@ const bulbasaur = new Pokemon(
     defensa = 18,
     tipo = "Planta",
     imagen = "bulbasaur.png",
-    position = game.at(20, 11)
+    position = game.at(29, 11)
 )
 
 
@@ -91,7 +91,7 @@ object selector {
 
 // INTERFAZ DE SELECCIÓN
 object tituloImagen {
-    method position() = game.at(8, 16)
+    method position() = game.at(14, 17)
     method image() = "titulo.png"
     method scale() = 0.10
 }
@@ -104,28 +104,28 @@ object instrucciones {
 
 // PIKACHU
 object pikachuStatsImage {
-    method position() = game.at(0, 3)
+    method position() = game.at(3, 3)
     method image() = "pikachu_stats.png"
     method scale() = 0.8
 }
 
 // CHARMANDER
 object charmanderStatsImage {
-    method position() = game.at(6, 3)
+    method position() = game.at(10.5, 3)
     method image() = "charmander_stats.png"
     method scale() = 0.8
 }
 
 // SQUIRTLE
 object squirtleStatsImage {
-    method position() = game.at(12, 3)
+    method position() = game.at(18.5, 3)
     method image() = "squirtle_stats.png"
     method scale() = 0.8
 }
 
 // BULBASAUR
 object bulbasaurStatsImage {
-    method position() = game.at(18, 3)
+    method position() = game.at(27, 3)
     method image() = "bulbasaur_stats.png"
     method scale() = 0.8
 }
@@ -135,9 +135,10 @@ object bulbasaurStatsImage {
 program juegoInicio {
     // Configuración del juego
     game.title("Gimnasio Pokémon")
-    game.width(28)
+    game.width(40)
     game.height(20)
     game.cellSize(64)
+    game.boardGround("fondo_pantalla.png")
 
     // Agregar Pokémon
     game.addVisual(pikachu)
