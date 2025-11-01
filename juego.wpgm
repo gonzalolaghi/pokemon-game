@@ -61,6 +61,7 @@ object juego {
         if (indiceSeleccionado > 0) {
             indiceSeleccionado -= 1
             selector.actualizarPosicion()
+            game.sound("selection.mp3").play()
         }
     }
 
@@ -68,6 +69,7 @@ object juego {
         if (indiceSeleccionado < pokemones.size() - 1) {
             indiceSeleccionado += 1
             selector.actualizarPosicion()
+            game.sound("selection.mp3").play()
         }
     }
 
@@ -98,7 +100,7 @@ object selector {
 
 // INTERFAZ DE SELECCIÓN
 object tituloImagen {
-    method position() = game.at(14, 17)
+    method position() = game.at(13.5, 17)
     method image() = "titulo.png"
     method scale() = 0.10
 }
