@@ -45,15 +45,91 @@ const bulbasaur = new Pokemon(
     position = game.at(-10, -10)
 )
 
+// POKÉMON ENEMIGOS
+const rattata = new Pokemon(
+    nombre = "Rattata",
+    vida = 130,
+    vidaMaxima = 130,
+    ataque = 22,
+    defensa = 15,
+    tipo = "Normal",
+    imagen = "rattata.png",
+    position = game.at(-10, -10),
+    esRival = true
+)
+
+const pidgey = new Pokemon(
+    nombre = "Pidgey",
+    vida = 140,
+    vidaMaxima = 140,
+    ataque = 25,
+    defensa = 12,
+    tipo = "Volador",
+    imagen = "pidgey.png",
+    position = game.at(-10, -10),
+    esRival = true
+)
+
+const geodude = new Pokemon(
+    nombre = "Geodude",
+    vida = 160,
+    vidaMaxima = 160,
+    ataque = 32,
+    defensa = 35,
+    tipo = "Roca",
+    imagen = "geodude.png",
+    position = game.at(-10, -10),
+    esRival = true
+)
+
+const machop = new Pokemon(
+    nombre = "Machop",
+    vida = 165,
+    vidaMaxima = 165,
+    ataque = 38,
+    defensa = 20,
+    tipo = "Lucha",
+    imagen = "machop.png",
+    position = game.at(-10, -10),
+    esRival = true
+)
+
+const onix = new Pokemon(
+    nombre = "Onix",
+    vida = 200,
+    vidaMaxima = 200,
+    ataque = 35,
+    defensa = 45,
+    tipo = "Roca",
+    imagen = "onix.png",
+    position = game.at(-10, -10),
+    esRival = true
+)
+
+const haunter = new Pokemon(
+    nombre = "Haunter",
+    vida = 180,
+    vidaMaxima = 180,
+    ataque = 50,
+    defensa = 25,
+    tipo = "Fantasma",
+    imagen = "haunter.png",
+    position = game.at(-10, -10),
+    esRival = true
+)
+
 
 // CONTROLADOR DEL JUEGO
 object juego {
     const pokemones = [pikachu, charmander, squirtle, bulbasaur]
+    const enemigos = [rattata, pidgey, geodude, machop, onix, haunter]
     var property indiceSeleccionado = 0
     var property pokemonElegido = null
+    var property pokemonEnemigo = null
     var property enPantallaSeleccion = true
     var property enPantallaInicio = true
     var property seleccionIniciada = false
+    var property eligiendoRival = false
 
     method pokemonActual() = pokemones.get(indiceSeleccionado)
 
@@ -74,13 +150,55 @@ object juego {
     }
 
     method confirmarSeleccion() {
-        pokemonElegido = self.pokemonActual()
-        game.schedule(100, { game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!") })
-        game.sound("yo_te_elijo.mp3").play()
-        // Remover controles de selección para evitar sonidos repetidos
-        keyboard.left().onPressDo({})
-        keyboard.right().onPressDo({})
-        keyboard.enter().onPressDo({})
+        if (pokemonElegido == null) {  // Solo permitir confirmar una vez
+            pokemonElegido = self.pokemonActual()
+            game.schedule(100, { game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!") })
+            game.sound("yo_te_elijo.mp3").play()
+            // Remover controles de selección para evitar sonidos repetidos
+            keyboard.left().onPressDo({})
+            keyboard.right().onPressDo({})
+            keyboard.enter().onPressDo({})
+            // Iniciar selección del rival después de 3 segundos
+            game.schedule(3000, { self.iniciarRuletaRival() })
+        }
+    }
+
+    method iniciarRuletaRival() {
+        eligiendoRival = true
+        // Limpiar pantalla de selección
+        game.removeVisual(pikachu)
+        game.removeVisual(charmander)
+        game.removeVisual(squirtle)
+        game.removeVisual(bulbasaur)
+        game.removeVisual(selector)
+        game.removeVisual(tituloImagen)
+        game.removeVisual(instrucciones)
+        game.removeVisual(pikachuStatsImage)
+        game.removeVisual(charmanderStatsImage)
+        game.removeVisual(squirtleStatsImage)
+        game.removeVisual(bulbasaurStatsImage)
+        // Agregar visual del rival, título y nombre
+        game.addVisual(rivalDisplay)
+        game.addVisual(tituloRival)
+        game.addVisual(nombreRival)
+        // Iniciar efecto de ruleta
+        self.efectoRuleta(0)
+    }
+
+    method efectoRuleta(contador) {
+        if (contador < 15) {  // 15 cambios = 1.5 segundos de ruleta
+            const enemigoPorMostrar = enemigos.anyOne()
+            rivalDisplay.cambiarPokemon(enemigoPorMostrar)
+            nombreRival.cambiarPokemon(enemigoPorMostrar)
+            game.schedule(100, { self.efectoRuleta(contador + 1) })
+        } else {
+            // Elegir enemigo final
+            pokemonEnemigo = enemigos.anyOne()
+            rivalDisplay.cambiarPokemon(pokemonEnemigo)
+            nombreRival.cambiarPokemon(pokemonEnemigo)
+            eligiendoRival = false
+            // El rival queda mostrado en pantalla sin popup
+        }
     }
 }
 
@@ -95,6 +213,38 @@ object selector {
     }
 
     method image() = "selector.png"
+}
+
+// Display del rival (para efecto ruleta)
+object rivalDisplay {
+    var property position = game.at(17, 10)  // Centrado
+    var pokemonActual = rattata  // Temporal inicial
+
+    method cambiarPokemon(pokemon) {
+        pokemonActual = pokemon
+    }
+
+    method image() = pokemonActual.image()
+}
+
+// Título para pantalla del rival
+object tituloRival {
+    method position() = game.at(13.5, 17)
+    method image() = "titulo_rival.png"
+    method scale() = 0.10
+}
+
+// Nombre del rival
+object nombreRival {
+    var pokemonActual = rattata
+
+    method position() = game.at(17, 6)
+
+    method cambiarPokemon(pokemon) {
+        pokemonActual = pokemon
+    }
+
+    method image() = "nombre_" + pokemonActual.nombre().toLowerCase() + ".png"
 }
 
 
