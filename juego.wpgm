@@ -72,10 +72,10 @@ const pidgey = new Pokemon(
 
 const geodude = new Pokemon(
     nombre = "Geodude",
-    vida = 160,
-    vidaMaxima = 160,
-    ataque = 32,
-    defensa = 35,
+    vida = 230,
+    vidaMaxima = 230,
+    ataque = 45,
+    defensa = 48,
     tipo = "Roca",
     imagen = "geodude.png",
     position = game.at(-10, -10),
@@ -84,10 +84,10 @@ const geodude = new Pokemon(
 
 const machop = new Pokemon(
     nombre = "Machop",
-    vida = 165,
-    vidaMaxima = 165,
-    ataque = 38,
-    defensa = 20,
+    vida = 280,
+    vidaMaxima = 280,
+    ataque = 55,
+    defensa = 35,
     tipo = "Lucha",
     imagen = "machop.png",
     position = game.at(-10, -10),
@@ -96,10 +96,10 @@ const machop = new Pokemon(
 
 const onix = new Pokemon(
     nombre = "Onix",
-    vida = 200,
-    vidaMaxima = 200,
-    ataque = 35,
-    defensa = 45,
+    vida = 350,
+    vidaMaxima = 350,
+    ataque = 45,
+    defensa = 65,
     tipo = "Roca",
     imagen = "onix.png",
     position = game.at(-10, -10),
@@ -108,10 +108,10 @@ const onix = new Pokemon(
 
 const haunter = new Pokemon(
     nombre = "Haunter",
-    vida = 180,
-    vidaMaxima = 180,
-    ataque = 50,
-    defensa = 25,
+    vida = 300,
+    vidaMaxima = 300,
+    ataque = 65,
+    defensa = 35,
     tipo = "Fantasma",
     imagen = "haunter.png",
     position = game.at(-10, -10),
@@ -197,7 +197,8 @@ object juego {
             rivalDisplay.cambiarPokemon(pokemonEnemigo)
             nombreRival.cambiarPokemon(pokemonEnemigo)
             eligiendoRival = false
-            // El rival queda mostrado en pantalla sin popup
+            // Iniciar combate después de 2 segundos
+            game.schedule(2000, { combate.iniciar(pokemonElegido, pokemonEnemigo) })
         }
     }
 }
