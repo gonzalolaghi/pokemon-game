@@ -50,8 +50,8 @@ const rattata = new Pokemon(
     nombre = "Rattata",
     vida = 130,
     vidaMaxima = 130,
-    ataque = 22,
-    defensa = 15,
+    ataque = 30,
+    defensa = 10,
     tipo = "Normal",
     imagen = "rattata.png",
     position = game.at(-10, -10),
@@ -62,7 +62,7 @@ const pidgey = new Pokemon(
     nombre = "Pidgey",
     vida = 140,
     vidaMaxima = 140,
-    ataque = 25,
+    ataque = 30,
     defensa = 12,
     tipo = "Volador",
     imagen = "pidgey.png",
@@ -74,8 +74,8 @@ const geodude = new Pokemon(
     nombre = "Geodude",
     vida = 230,
     vidaMaxima = 230,
-    ataque = 45,
-    defensa = 48,
+    ataque = 30,
+    defensa = 0,
     tipo = "Roca",
     imagen = "geodude.png",
     position = game.at(-10, -10),
@@ -86,8 +86,8 @@ const machop = new Pokemon(
     nombre = "Machop",
     vida = 280,
     vidaMaxima = 280,
-    ataque = 55,
-    defensa = 35,
+    ataque = 35,
+    defensa = 0,
     tipo = "Lucha",
     imagen = "machop.png",
     position = game.at(-10, -10),
@@ -99,7 +99,7 @@ const onix = new Pokemon(
     vida = 350,
     vidaMaxima = 350,
     ataque = 45,
-    defensa = 65,
+    defensa = 5,
     tipo = "Roca",
     imagen = "onix.png",
     position = game.at(-10, -10),
@@ -110,8 +110,8 @@ const haunter = new Pokemon(
     nombre = "Haunter",
     vida = 300,
     vidaMaxima = 300,
-    ataque = 65,
-    defensa = 35,
+    ataque = 45,
+    defensa = 10,
     tipo = "Fantasma",
     imagen = "haunter.png",
     position = game.at(-10, -10),
@@ -137,7 +137,9 @@ object juego {
         if (indiceSeleccionado > 0) {
             indiceSeleccionado -= 1
             selector.actualizarPosicion()
-            game.sound("selection.mp3").play()
+            if (enPantallaSeleccion && not eligiendoRival && not combate.enCombate()) {
+                game.sound("selection.mp3").play()
+            }
         }
     }
 
@@ -145,15 +147,19 @@ object juego {
         if (indiceSeleccionado < pokemones.size() - 1) {
             indiceSeleccionado += 1
             selector.actualizarPosicion()
-            game.sound("selection.mp3").play()
+            if (enPantallaSeleccion && not eligiendoRival && not combate.enCombate()) {
+                game.sound("selection.mp3").play()
+            }
         }
     }
 
     method confirmarSeleccion() {
-        if (pokemonElegido == null) {  // Solo permitir confirmar una vez
+        if (pokemonElegido == null) {  
             pokemonElegido = self.pokemonActual()
             game.schedule(100, { game.say(pokemonElegido, pokemonElegido.nombre() + ", yo te elijo!") })
-            game.sound("yo_te_elijo.mp3").play()
+            if (enPantallaSeleccion && not combate.enCombate()) {
+                game.sound("yo_te_elijo.mp3").play()
+            }
             // Remover controles de selección para evitar sonidos repetidos
             keyboard.left().onPressDo({})
             keyboard.right().onPressDo({})
@@ -185,19 +191,38 @@ object juego {
         self.efectoRuleta(0)
     }
 
+    method volverAlMenu() {
+        // Resetear estados del juego a pantalla de inicio
+        pokemonElegido = null
+        pokemonEnemigo = null
+        enPantallaSeleccion = false
+        enPantallaInicio = true
+        seleccionIniciada = false
+        eligiendoRival = false
+        indiceSeleccionado = 0
+
+        // Limpiar visuales y mostrar botón de play
+        game.allVisuals().forEach({ visual => game.removeVisual(visual) })
+        game.addVisual(playButton)
+
+        // Reasignar control para iniciar selección
+        keyboard.enter().onPressDo({ playButton.iniciarSeleccion() })
+    }
+
     method efectoRuleta(contador) {
-        if (contador < 15) {  // 15 cambios = 1.5 segundos de ruleta
+        if (contador < 15) {  
             const enemigoPorMostrar = enemigos.anyOne()
             rivalDisplay.cambiarPokemon(enemigoPorMostrar)
+            game.sound("selection.mp3").play()
             nombreRival.cambiarPokemon(enemigoPorMostrar)
             game.schedule(100, { self.efectoRuleta(contador + 1) })
         } else {
             // Elegir enemigo final
             pokemonEnemigo = enemigos.anyOne()
             rivalDisplay.cambiarPokemon(pokemonEnemigo)
+            game.sound("selection.mp3").play()
             nombreRival.cambiarPokemon(pokemonEnemigo)
             eligiendoRival = false
-            // Iniciar combate después de 2 segundos
             game.schedule(2000, { combate.iniciar(pokemonElegido, pokemonEnemigo) })
         }
     }
@@ -218,8 +243,8 @@ object selector {
 
 // Display del rival (para efecto ruleta)
 object rivalDisplay {
-    var property position = game.at(17, 10)  // Centrado
-    var pokemonActual = rattata  // Temporal inicial
+    var property position = game.at(17, 10)
+    var pokemonActual = rattata  
 
     method cambiarPokemon(pokemon) {
         pokemonActual = pokemon
@@ -298,7 +323,9 @@ object playButton {
 
     method iniciarSeleccion() {
         if (not juego.seleccionIniciada()) {
-            game.sound("choose_your_pokemon.mp3").play()
+            if (juego.enPantallaInicio()) {
+                game.sound("choose_your_pokemon.mp3").play()
+            }
             juego.seleccionIniciada(true)
             juego.enPantallaInicio(false)
             // Posicionar Pokémon
